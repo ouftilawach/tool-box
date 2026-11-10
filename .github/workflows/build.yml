@@ -13,16 +13,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Setup Expo CLI & EAS
+      - name: Setup Expo & EAS CLI
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+          install: false
 
-      - name: Build APK with EAS
-        run: npx eas-cli build --platform android --profile preview --non-interactive --auto-submit-with-default-routes || npx eas-cli build --platform android --profile preview --non-interactive
+      - name: Install dependencies with NPM
+        run: npm install --legacy-peer-deps
+
+      - name: Build APK on EAS
+        run: npx eas build --platform android --profile preview --non-interactive
